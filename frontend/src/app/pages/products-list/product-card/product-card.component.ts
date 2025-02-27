@@ -1,6 +1,7 @@
-import { Component, input, output } from '@angular/core';
+import { Component, inject, input, output } from '@angular/core';
 import { Product } from '../../../models/products.model';
 import { PrimaryButtonComponent } from "../../../components/primary-button/primary-button.component";
+import { CartService } from '../../../services/cart.service';
 
 @Component({
   selector: 'app-product-card',
@@ -14,7 +15,7 @@ import { PrimaryButtonComponent } from "../../../components/primary-button/prima
       <span class="text-xl font-bold"> {{ product().title }} </span>
       <span class="text-sm font-sans"> Price: {{ '$' + product().price }} </span>
       <!-- <span class="text-sm font-sans"> Stock: {{ product().stock }} left </span> -->
-      <app-primary-button label="Add to Cart" (btnClicked)="addToCart()" class="mt-3" />
+      <app-primary-button label="Add to Cart" (btnClicked)="cartService.addToCart(product())" class="mt-3" />
     </div>
     </div>
 
@@ -34,11 +35,8 @@ import { PrimaryButtonComponent } from "../../../components/primary-button/prima
 })
 export class ProductCardComponent {
   product = input.required<Product>();
+ 
+  cartService = inject(CartService);
 
-  btnClicked = output();
-
-  addToCart(){
-    this.btnClicked.emit();
-  }
 
 }
